@@ -5,7 +5,9 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from analyzer import analizar_csv  # Importa la funcion de analisis de datos  
+from tkinter.scrolledtext import ScrolledText # Mostrar resultados en un widget de texto con scroll
 
+# Clase principal de la aplicacion
 class DataAnalyzerApp:
     def __init__(self, ventana):
         # Iniciar la ventana principal de la aplicacion
@@ -21,6 +23,10 @@ class DataAnalyzerApp:
         self.boton_cargar = tk.Button(ventana, text="Cargar CSV", command=self.load_csv)
         self.boton_cargar.pack()
         
+        # Cuadro de texto para mostrar resultados
+        self.cuadro_texto = ScrolledText(ventana, width=50, height=10)
+        self.cuadro_texto.pack(pady=10)
+        
     def cargar_csv(self):
         # Abre un cuadro de dialogo para seleccionar un archivo CSV
         ruta_archivo = filedialog.askopenfilename(
@@ -31,8 +37,9 @@ class DataAnalyzerApp:
             # Llama a la función de analisis y obtiene el resumen estadistico
             resumen = analizar_csv(ruta_archivo)
             if resumen is not None:
-                # Si el analisis fue exitoso, imprime el resumen en consola y muestra mensaje de exito
-                print(resumen)
+                self.cuadro_texto.delete(1.0, tk.END)  # Limpia el cuadro de texto
+                self.cuadro_texto.insert(tk.END, str(resumen)) # Inserta el resumen en el cuadro de texto
+                # Muestra mensaje de exito
                 messagebox.showinfo("Éxito", "Archivo analizado. Revisa la consola para ver el resumen estadístico.")
             else:
                 # Si hubo un error en el analisis, muestra advertencia
