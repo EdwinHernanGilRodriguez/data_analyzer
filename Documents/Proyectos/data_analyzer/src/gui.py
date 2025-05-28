@@ -20,7 +20,7 @@ class DataAnalyzerApp:
         self.etiqueta.pack(pady=20)
         
         # Boton para cargar el archivo CSV
-        self.boton_cargar = tk.Button(ventana, text="Cargar CSV", command=self.load_csv)
+        self.boton_cargar = tk.Button(ventana, text="Cargar CSV", command=self.cargar_csv)
         self.boton_cargar.pack()
         
         # Cuadro de texto para mostrar resultados
@@ -39,6 +39,7 @@ class DataAnalyzerApp:
             if resumen is not None:
                 self.cuadro_texto.delete(1.0, tk.END)  # Limpia el cuadro de texto
                 self.cuadro_texto.insert(tk.END, str(resumen)) # Inserta el resumen en el cuadro de texto
+                self.cuadro_texto = ScrolledText(ventana, width=90, height=25, font=("Courier", 10))  # Reinicializa el cuadro de texto para que tenga scroll
                 # Muestra mensaje de exito
                 messagebox.showinfo("Éxito", "Archivo analizado. Revisa la consola para ver el resumen estadístico.")
             else:
