@@ -1,19 +1,25 @@
 # data_analyzer - By Edwin Gil
 
-# Importacion de librerias necesarias
-import pandas as pd # Para el analisis de datos
-from tabulate import tabulate # Para mostrar resultados en formato tabular
+# Importación de librerías necesarias
+import pandas as pd  # Para el análisis de datos
+from tabulate import tabulate  # Para mostrar resultados en formato tabular
 
-# Funcion para analizar un archivo CSV y devolver un resumen estadístico
-def analizar_csv(ruta_archivo):
+# Función para generar un resumen estadístico de un DataFrame
+def generar_resumen_estadistico(df):
     try:
-        # Lee el archivo CSV en un DataFrame de pandas
-        df = pd.read_csv(ruta_archivo)
-        # Genera un resumen estadistico de todas las columnas
+        # Calcula estadísticas descriptivas (numéricas y categóricas)
         resumen = df.describe(include='all').transpose()
-        # Retorna el resumen en formato tabular
+        # Retorna el resumen en formato tabular legible
         return tabulate(resumen, headers='keys', tablefmt='grid')
     except Exception as e:
-        # Manejo de errores: imprime el error y retorna None
+        # Manejo de errores
+        return f"Error al generar análisis estadístico: {e}"
+
+# Función adicional si se requiere análisis desde un archivo
+def analizar_csv(ruta_archivo):
+    try:
+        df = pd.read_csv(ruta_archivo)
+        return generar_resumen_estadistico(df)
+    except Exception as e:
         print(f"Error al analizar el archivo CSV: {e}")
         return None
